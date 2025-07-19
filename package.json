@@ -1,0 +1,28 @@
+{
+  "name": "adtcapshome-mqtt",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/app.ts",
+  "scripts": {
+    "start": "node src/app.ts",
+    "start-with-env": "node --env-file=.env src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koreapyj/adtcapshome-mqtt.git"
+  },
+  "author": "koreapyj",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/koreapyj/adtcapshome-mqtt/issues"
+  },
+  "homepage": "https://github.com/koreapyj/adtcapshome-mqtt#readme",
+  "description": "",
+  "engines": {
+    "node": ">=23"
+  },
+  "dependencies": {
+    "mqtt": "^5.13.3",
+    "path-to-regexp": "^8.2.0"
+  }
+}
