@@ -112,9 +112,15 @@ process.on('SIGQUIT', () => {
       const state = current_cam_state[device_id];
       if(prev_cam_state[device_id]?.noti_id === state.noti_id) continue;
 
+      const {url: thumb_url} = await ADTCapsHome.post('ADT_HOME_APP_SERVICE', 'remoDoorcamService/url2', {
+        "path": state.thumb_path,
+        "timeMinute": 24*60
+      });
+      state.thumb_path_url = thumb_url;
+
       await set_state(`${device_id}/camera`, JSON.stringify(state));
-      await set_state(`${device_id}/camera_url`, state.thumb_path_url);
-      await conn.publishAsync(`${topic_prefix}/${contract_id}/${device_id}/camera_thumb`, Buffer.from(await (await fetch(state.thumb_path_url)).arrayBuffer()), {qos: 1, retain: true, properties: {contentType: 'image/jpeg'}});
+      await set_state(`${device_id}/camera_url`, thumb_url);
+      await conn.publishAsync(`${topic_prefix}/${contract_id}/${device_id}/camera_thumb`, Buffer.from(await (await fetch(thumb_url)).arrayBuffer()), {qos: 1, retain: true, properties: {contentType: 'image/jpeg'}});
       prev_cam_state[device_id] = state;
 
       await conn.publishAsync(`${discovery_prefix}/image/${contract_id}/${device_id}/config`, JSON.stringify({
